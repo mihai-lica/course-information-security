@@ -1,0 +1,1883 @@
+\documentclass[pdf]{beamer}
+\mode<presentation>{} 
+
+\usepackage{hyperref}
+\usepackage{pgf}
+\usepackage{tikz}
+\usetikzlibrary{trees}
+\usetikzlibrary{arrows,automata}
+\usetikzlibrary{automata,positioning}
+\usetikzlibrary{shapes}
+\usepackage{tikz-qtree,tikz-qtree-compat}
+\usepackage{mathtools,enumerate,amssymb}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{graphicx}
+\usepackage{tabularx}
+
+\title{Entity Authentication}
+\subtitle{Securitate informatică}
+\AtBeginSection[]{}
+
+\setbeamertemplate{sidebar right}{}
+\setbeamertemplate{footline}{%
+\hfill\usebeamertemplate***{navigation symbols}
+\hspace{1cm}\insertframenumber{}/\inserttotalframenumber}
+
+\begin{document}
+
+\begin{frame}
+	\titlepage
+
+\begin{flushright}
+Mihai-Lica Pura\\
+\end{flushright}
+
+\end{frame}
+
+
+
+\begin{frame}{Cuprins}
+\begin{itemize}
+\item
+Entity versus Data origin authentication
+\item
+Entity authentication definition and classification
+\item
+Authenticating with something you have
+\item
+Authenticating with something you are
+\item
+Authenticating with something you know
+\item
+Multi-factor authentication
+\item
+Security protocols
+\end{itemize}
+\end{frame}
+
+
+
+\begin{frame}{Entity versus Data origin authentication}
+\begin{itemize}
+\item
+\textbf{Entity authentication} - the assurance that a given entity is involved and currently active in a communication session
+\newline
+
+\item
+\textbf{Data origin authentication} - the assurance that a given entity was the original source of some data (sometimes referred to as message authentication)
+\end{itemize}
+\end{frame}
+
+
+
+\begin{frame}{Entity authentication}
+\begin{itemize}
+\item
+an entity (human user or machine) must provide \textbf{assurance of the declared identity} in real time in order to have access to either physical or virtual resources
+\item
+as entity authentication provides identity assurance in "real time", it can only truly be achieved for \textbf{an instant in time}
+\end{itemize}
+\end{frame}
+
+
+
+\begin{frame}{Entity authentication}
+\textbf{Classification}
+\newline
+
+\begin{itemize}
+\item
+\textbf{Unilateral entity authentication} - the assurance of the identity of one entity to another (and not vice-versa)
+\newline
+
+\item
+\textbf{Mutual entity authentication} - both communicating entities provide each other with assurance of their declared identity
+\end{itemize}
+\end{frame}
+
+
+
+\begin{frame}{Entity authentication}
+\begin{itemize}
+\item
+The assurance of the declared identity is given are by using (a combination of) the following:
+\newline
+
+\begin{itemize}
+\item
+  something that \textbf{you have}
+\item
+  something that \textbf{you are}
+\item
+  something that \textbf{you know}
+\end{itemize}
+\end{itemize}
+\end{frame}
+
+
+
+\begin{frame}{Entity authentication}
+
+Something that \textbf{you have}
+
+\begin{itemize}
+\item
+dumb tokens
+
+\begin{itemize}
+\item
+plastic cards with a magnetic stripe
+
+\item
+tokens with memory chip
+\end{itemize}
+
+\item
+smartcards
+
+\begin{itemize}
+\item
+bank cards
+
+\item
+public transportation cards
+\end{itemize}
+
+\item
+One Time Password (OTP) tokens
+
+\item
+mobile phones/smart phones SIM cards
+
+\begin{itemize}
+\item
+often in conjunction with:
+\begin{itemize}
+\item
+an OTP app 
+\item
+cryptographic material (i.e., certificate or a key) residing on the device
+\end{itemize}
+\end{itemize}
+
+\end{itemize}
+\end{frame}
+
+
+
+\begin{frame}{Entity authentication}
+
+Something that \textbf{you are - biometrics}
+
+\begin{itemize}
+\item
+techniques for human user entity authentication that are based on physical characteristics of the human body
+\newline
+
+\item
+\textbf{enrolment} - a biometric control converts a physical characteristic into a digital template that is stored on a database
+\item
+\textbf{authentication} - when the user physically presents themselves for entity authentication, the physical characteristic is measured by a reader, digitally encoded, and then compared with the template
+\end{itemize}
+\end{frame}
+
+
+
+\begin{frame}{Entity authentication}
+
+Something that \textbf{you are - biometrics}
+
+\begin{itemize}
+\item
+\textbf{static (unchanging)} - measurements include fingerprints, finger vein scans, hand geometry, face recognition, retina scans, iris scans, earlobe geometry, etc.
+\newline
+
+\item
+\textbf{dynamic (changing)} measurements include handwriting measurements, voice recognition, etc.
+\end{itemize}
+\end{frame}
+
+
+
+\begin{frame}{Dumb tokens}
+\begin{itemize}
+\item
+physical device without a memory that can be used as a type of electronic key
+
+\item
+operate with \textbf{a reader that extracts some information from the token} and then indicates whether the information authenticates the entity or not
+
+\item
+the security of the card is based entirely on the difficulty of extracting the information from the token
+
+\item
+it is common to combine the use of a dumb token with another entity authentication technique, such as one based on something you know
+
+\end{itemize}
+\end{frame}
+
+
+
+\begin{frame}{Smartcards}
+\begin{itemize}
+\item
+a plastic card that contains a chip, which gives the card a limited amount of \textbf{memory and processing power}
+
+\item
+can store secret data more securely
+
+\item
+can engage in cryptographic processes that require some computations to be performed (e.g. challenge/response)
+
+\item
+smartcards have limited memory and processing power, thus restricting the types of operation that they can comfortably perform
+
+\end{itemize}
+\end{frame}
+
+
+
+\begin{frame}{Entity authentication}
+
+Something that \textbf{you know}
+
+\begin{itemize}
+\item
+password/passphrase
+\item
+PIN
+\item
+answers to secret questions (challenge/response questions)
+\end{itemize}
+\end{frame}
+
+
+
+\begin{frame}{Password authentication}
+\begin{itemize}
+\item
+\textbf{Authentication Cheat Sheet}
+
+\url{https://www.owasp.org/index.php/Authentication_Cheat_Sheet}
+
+\item
+\textbf{Password Storage Cheat Sheet}
+
+\url{https://www.owasp.org/index.php/Password_Storage_Cheat_Sheet}
+
+\item
+\textbf{Forgot Password Cheat Sheet}
+
+\url{https://www.owasp.org/index.php/Forgot_Password_Cheat_Sheet}
+
+\item
+\textbf{Choosing and Using Security Questions Cheat Sheet}
+
+\url{https://www.owasp.org/index.php/Choosing_and_Using_Security_Questions_Cheat_Sheet}
+
+\end{itemize}
+\end{frame}
+
+
+
+\begin{frame}{Password General Guidelines}
+\begin{itemize}
+\item
+User IDs
+\begin{itemize}
+\item
+usernames/userids are case insensitive
+\item
+user names should be unique
+\item
+for high security applications usernames could be assigned and secret instead of user-defined public data
+\end{itemize}
+
+\item
+Implement Proper Password Strength Controls
+\begin{itemize}
+\item
+Password Length
+\item
+Password Complexity
+\item
+Password Topologies
+\end{itemize}
+\end{itemize}
+\end{frame}
+
+
+
+\begin{frame}{Password General Guidelines}
+\begin{itemize}
+\item
+\textbf{Password Length}
+\begin{itemize}
+\item
+Longer passwords provide a greater combination of characters and consequently make it more difficult for an attacker to guess
+\item
+Minimum length of the passwords should be enforced by the application
+\item
+Passwords shorter than 10 characters are considered to be weak (NIST SP800-132)
+\item
+Passphrases shorter than 20 characters are usually considered weak if they only consist of lower case Latin characters
+\item
+Typical maximum length is 128 characters
+\end{itemize}
+\end{itemize}
+\end{frame}
+
+
+
+\begin{frame}{Password General Guidelines}
+\begin{itemize}
+\item
+\textbf{Password Complexity}
+\begin{itemize}
+\item
+should enforce password complexity rules to discourage easy to guess passwords
+\item
+Passwords should, obviously, be case sensitive in order to increase their complexity
+\item
+Password mechanisms should allow virtually any character the user can type to be part of their password, including the space character
+\end{itemize}
+\end{itemize}
+\end{frame}
+
+
+
+\begin{frame}{Password General Guidelines}
+\begin{itemize}
+\item
+\textbf{Password Complexity Example}
+\begin{itemize}
+\item
+Password must meet at least 3 out of the following 4 complexity rules 
+
+\begin{itemize}
+\item
+at least 1 uppercase character (A-Z) 
+\item
+at least 1 lowercase character (a-z) 
+\item
+at least 1 digit (0-9) 
+\item
+at least 1 special character (punctuation) — do not forget to treat space as special characters too
+\end{itemize}
+
+\item
+at least 10 characters 
+
+\item
+at most 128 characters
+
+\item
+not more than 2 identical characters in a row (e.g., 111 not allowed)
+\end{itemize}
+\end{itemize}
+\end{frame}
+
+
+
+\begin{frame}{Password General Guidelines}
+\begin{itemize}
+\item
+\textbf{Password Topologies}
+\begin{itemize}
+\item
+patterns of passwords, e.g. \textbf{Ullllldd} where:
+\begin{itemize}
+\item
+u=uppercase
+\item
+l=lowercase
+\item
+d=digit
+\item
+s=special (other character)
+\end{itemize}
+
+\item
+Ban commonly used password topologies
+\item
+Force multiple users to use different password topologies
+\item
+Require a minimum topology change between old and new passwords
+\end{itemize}
+\end{itemize}
+\end{frame}
+
+
+
+\begin{frame}{Password General Guidelines}
+\begin{itemize}
+\item
+\textbf{Additional Information}
+\begin{itemize}
+\item
+Make sure that every character the user types in is actually included in the password
+
+\item
+\textbf{do not truncate the password} at a length shorter than what the user provided (e.g., truncated at 15 characters when they entered 20)
+
+\item
+be very clear about what the password policy is - the required policy needs to be explicitly stated on the password change page
+
+\item
+if the new password doesn't comply with the complexity policy, the error message should describe EVERY complexity rule that the new password does not comply with
+\end{itemize}
+\end{itemize}
+\end{frame}
+
+
+
+\begin{frame}{Password Storage Cheat Sheet}
+\begin{itemize}
+\item
+Do not limit the character set and set long max lengths for credentials
+
+\item
+Hash the password as one of several steps
+
+\item
+Use a cryptographically strong credential-specific salt
+\newline
+
+\textbf{[protected form] = [salt] + protect([protection func], [salt] + [credential]); }
+\newline
+\end{itemize}
+\end{frame}
+
+
+
+\begin{frame}{Password Storage Cheat Sheet}
+\begin{itemize}
+\item
+\textbf{salt}  - fixed-length cryptographically-strong random value
+
+\item
+salt purposes:
+
+\begin{itemize}
+\item
+prevent the protected form from revealing two identical credentials
+\item
+augment entropy fed to protecting function without relying on credential complexity
+\item
+the second purpose makes intractable
+\begin{itemize}
+\item
+pre-computed lookup attacks on an individual credential
+\item
+time-based attacks on a population 
+\end{itemize}
+\end{itemize}
+
+\end{itemize}
+\end{frame}
+
+
+
+\begin{frame}{Password Storage Cheat Sheet}
+\begin{itemize}
+\item
+Impose infeasible verification on attacker
+\begin{itemize}
+\item
+the defender needs an acceptable response time for verification of user’s credentials during peak use
+\item
+the time required to map <credential> to <protected form> must remain beyond threats’ hardware (GPU, FPGA) and technique (dictionary-based, brute force, etc) capabilities
+\end{itemize}
+\item
+e.g. use adaptive one-way functions (Argon2, PBKDF2, scrypt, bcrypt, etc.)
+\begin{itemize}
+\item
+adaptive one-way functions compute a one-way (irreversible) transform
+\item
+allows configuration of \textbf{work factor}
+\item
+underlying mechanisms used to achieve irreversibility and govern work factors (such as time, space, and parallelism) vary between functions 
+\end{itemize}
+\end{itemize}
+\end{frame}
+
+
+
+\begin{frame}{Password Storage Cheat Sheet}
+
+$//$STEP 1 Create the salt value with a cryptographic PRNG:
+
+byte$[]$ salt;
+
+new RNGCryptoServiceProvider().GetBytes(salt = new byte$[$SALT$\_$SIZE$]$);
+\newline
+
+$//$STEP 2 Create the Rfc2898DeriveBytes and get the hash value:
+
+var pbkdf2 = new Rfc2898DeriveBytes(password, salt, 10000);
+
+byte$[]$ hash = pbkdf2.GetBytes(20);
+\newline
+
+$//$STEP 3 Combine the salt and password bytes for later use:
+
+byte$[]$ hashBytes = new byte$[$SALT$\_$SIZE + 20$]$;
+
+Array.Copy(salt, 0, hashBytes, 0, SALT$\_$SIZE);
+
+Array.Copy(hash, 0, hashBytes, SALT$\_$SIZE, 20);
+\newline
+
+$//$STEP 4 Turn the combined salt+hash into a string for storage
+
+string savedPasswordHash = Convert.ToBase64String(hashBytes);
+
+\end{frame}
+
+
+
+\begin{frame}{Password Storage Cheat Sheet}
+
+/* Fetch the stored value */
+
+string savedPasswordHash = database.Password;
+\newline
+
+/* Extract the bytes */
+                        
+byte[] hashBytes = Convert.FromBase64String(savedPasswordHash);
+\newline
+
+/* Get the salt */
+                        
+byte[] salt = new byte[SALT$\_$SIZE];
+
+Array.Copy(hashBytes, 0, salt, 0, SALT$\_$SIZE);
+\newline
+
+/* Compute the hash on the password the user entered */
+
+var pbkdf2 = new Rfc2898DeriveBytes(user.Password, salt, 10000);
+
+byte[] hash = pbkdf2.GetBytes(20);
+\newline
+
+/* Compare the results */
+
+for (int i = 0; i < 20; i++) { if (hashBytes[i + SALT$\_$SIZE] != hash[i]) { return false; } }
+                        
+\end{frame}
+
+
+
+\begin{frame}{Other types of information}
+\begin{itemize}
+\item
+\textbf{geolocation and time} may be additionally included in the authentication process
+\item
+but always in CONJUNCTION with at least one of the three factors mentioned above and NEVER alone
+\item
+e.g. geolocation and time data may be used to restrict remote access to an entity’s network in accordance with an individual’s work schedule
+\item
+but the remote access method must still require authentication using at least one factor
+\end{itemize}
+\end{frame}
+
+
+
+\begin{frame}{Multi-factor authentication}
+\begin{itemize}
+\item
+provides a \textbf{higher degree of assurance of the identity} of the entity attempting to access a resource (physical location, computing device, network or a database)
+
+\item
+creates a \textbf{multi-layered mechanism} that an unauthorized entity would have to defeat in order to gain access
+
+\item
+PCI DSS requires MFA to be implemented as defined in Requirement 8.3 and its sub-requirements
+\begin{itemize}
+\item
+Guidance column of the standard includes:
+\item
+"Multi-factor authentication requires an individual to present \textbf{a minimum of two separate forms of authentication} (as described in Requirement 8.2), before access is granted."
+\end{itemize}
+\end{itemize}
+\end{frame}
+
+
+
+\begin{frame}{Multi-factor authentication}
+\begin{itemize}
+\item
+the authentication mechanisms used for MFA should be \textbf{independent of one another} such that:
+\begin{itemize}
+\item
+access to one factor does not grant access to any other factor
+\item
+the compromise of any one factor does not affect the integrity or confidentiality of any other factor
+\end{itemize}
+\end{itemize}
+\end{frame}
+
+
+
+\begin{frame}{Multi-factor authentication}
+\begin{itemize}
+\item
+e.g. \textbf{no independence} - the same set of credentials (e.g., username/password) is used:
+\begin{itemize}
+\item
+as an authentication factor
+\item
+and also for gaining access to an e-mail account where a secondary factor (e.g., one-time password) is sent
+\end{itemize}
+\item
+e.g. \textbf{no independence} - the same set of credentials is used for both:
+\begin{itemize}
+\item
+protecting a software certificate stored on a laptop (something you have)
+\item
+logging in to the laptop (something you know) 
+\end{itemize}
+\end{itemize}
+\end{frame}
+
+
+
+\begin{frame}{Multi-factor authentication}
+\begin{itemize}
+\item
+issue with \textbf{authentication credentials embedded into the device} is a potential loss of independence between factors
+
+\item
+i.e. physical possession of the device can grant access to:
+\begin{itemize}
+\item
+a secret (something you know) 
+\item
+as well as a token (something you have) such as the device itself, or a certificate or software token stored or generated on the device
+\end{itemize}
+\end{itemize}
+\end{frame}
+
+
+
+\begin{frame}{Out-of-band authentication}
+\begin{itemize}
+\item
+authentication processes where \textbf{authentication mechanisms are conveyed through different networks or channels}
+\newline
+
+\item
+authentication factors are conveyed through a single device/channel
+\begin{itemize}
+\item
+entering credentials via a device that also receives, stores, or generates a software token
+\item
+a malicious user who has established control of the device has the ability to capture both authentication factors
+\end{itemize}
+\end{itemize}
+\end{frame}
+
+
+
+\begin{frame}{Out-of-band authentication}
+\begin{itemize}
+\item
+transmission of a one-time password (OTP) to a smartphone has traditionally been considered an effective out-of-band method
+
+\item
+if \textbf{the same phone} is then used to submit the OTP (e.g. via a web browser) the effectiveness of the OTP as a secondary factor is \textbf{effectively nullified}
+
+\item
+e.g. accessing the Internet banking account using the smartphone on which one receives the OTP
+\newline
+
+\item
+NIST currently permits the use of SMS, but they have advised that \textbf{out-of-band authentication using SMS or voice has been deprecated} and may be removed from future releases of their publication
+\end{itemize}
+\end{frame}
+
+
+
+\begin{frame}{Out-of-band authentication}
+
+\textbf{Problems using SMS for out-of-band authentications}
+
+\begin{itemize}
+\item
+Dan Goodin, \textbf{Database leak exposes millions of two-factor codes and reset links sent by SMS} - 11/16/2018
+
+\url{https://arstechnica.com/information-technology/2018/11/millions-of-sms-texts-in-unsecured-database-expose-2fa-codes-and-reset-links/?amp=1}
+
+\item
+Natasha Bernal, \textbf{Metro Bank hit by cyber attack used to empty customer accounts}, The Telegraph  - 01/02/2019
+
+\url{https://www.telegraph.co.uk/technology/2019/02/01/metro-bank-hit-cyber-attack-used-empty-customer-accounts/amp/}
+
+\end{itemize}
+\end{frame}
+
+
+
+\begin{frame}{Multi-step vs. Multi-Factor authentication}
+\begin{itemize}
+\item
+"multi-step" authentication
+
+\begin{itemize}
+\item
+e.g. an entity submits credentials (e.g. username/password) that, once successfully validated, lead to the presentation of the second factor for validation (e.g. biometric)
+\end{itemize}
+
+\item
+\textbf{no prior knowledge of the success or failure of any factor should be provided to the individual until all factors have been presented}
+
+\item
+if an unauthorized user can deduce the validity of any individual authentication factor
+
+\begin{itemize}
+\item
+the overall authentication process becomes a collection of subsequent, single-factor authentication steps
+\item
+even if a different factor is used for each step
+\end{itemize}
+
+\end{itemize}
+\end{frame}
+
+
+
+\begin{frame}{Multi-step and Multi-Factor authentication}
+\begin{itemize}
+\item
+a remote user entering credentials to log in to their corporate laptop
+\item
+he/she then initiates a VPN connection to the organization’s network using a combination of:
+\begin{itemize}
+\item
+credentials
+\item
+a physical smartcard or hardware token
+\end{itemize}
+\end{itemize}
+\end{frame}
+
+
+
+\begin{frame}{Multi-factor authentication scenarios}
+
+\begin{figure}[t]
+\centering
+\includegraphics[scale=0.35]{Images/scenario1}
+\end{figure}
+
+\end{frame}
+
+
+
+\begin{frame}{Multi-factor authentication scenarios}
+\begin{itemize}
+\item
+an individual uses \textbf{one set of credentials (password A)} to:
+\begin{itemize}
+\item
+log in to a device
+\item
+and also to access a software token stored on the device
+\end{itemize}
+\item
+the individual then establishes a connection to the corporate network, providing:
+\begin{itemize}
+\item
+\textbf{a different set of credentials (password B)}
+\item
+and \textbf{the OTP} generated by the software token as authentication
+\end{itemize}
+\end{itemize}
+\end{frame}
+
+
+
+\begin{frame}{Multi-factor authentication scenarios}
+\begin{itemize}
+\item
+\textbf{to ensure the independence of authentication factors}:
+
+\begin{itemize}
+\item
+\textbf{the software token} ("something you have") \textbf{is embedded into the physical device} in such way that it cannot be copied or used on any other device
+\item
+physical security over the device becomes a required security control as \textbf{proof of possession of the device}
+\end{itemize}
+
+\item
+if access to software token is merely a reflection of the ability to login into the device (either locally or remotely)
+\begin{itemize}
+\item
+the overall authentication process is a usage of "something you know" twice
+\end{itemize}
+
+\end{itemize}
+\end{frame}
+
+
+
+\begin{frame}{Multi-factor authentication scenarios}
+
+\begin{figure}[t]
+\centering
+\includegraphics[scale=0.35]{Images/scenario2}
+\end{figure}
+
+\end{frame}
+
+
+
+\begin{frame}{Multi-factor authentication scenarios}
+\begin{itemize}
+\item
+an individual uses \textbf{one set of credentials (password A)} to:
+\begin{itemize}
+\item
+log in to a device
+\item
+and also to access a software token stored on the device
+\end{itemize}
+\item
+the individual then establishes a connection to the corporate network by:
+\begin{itemize}
+\item
+launching a browser window that \textbf{pre-populates a different set of credentials} (e.g., cached on the device or using password manager)
+\item
+and \textbf{the OTP} generated by the software token as authentication
+\end{itemize}
+\end{itemize}
+\end{frame}
+
+
+
+\begin{frame}{Multi-factor authentication scenarios}
+\begin{itemize}
+\item
+\textbf{no independence between authentication factors}:
+
+\item
+a single set of credentials (Password A) provides access to both factors (password B and software token)
+\end{itemize}
+\end{frame}
+
+
+
+\begin{frame}{Multi-factor authentication scenarios}
+
+\begin{figure}[t]
+\centering
+\includegraphics[scale=0.35]{Images/scenario3}
+\end{figure}
+
+\end{frame}
+
+
+
+\begin{frame}{Multi-factor authentication scenarios}
+\begin{itemize}
+\item
+the individual uses \textbf{one set of credentials} (e.g., username/password) to log in into the computer
+
+\item
+the connection to the corporate network requires both:
+\begin{itemize}
+\item
+\textbf{the initial set of credentials}
+\item
+\textbf{an OTP generated by a software token residing on a mobile device}
+\end{itemize}
+\end{itemize}
+\end{frame}
+
+
+
+\begin{frame}{Multi-factor authentication scenarios}
+\begin{itemize}
+\item
+the independence of the authentication factors is maintained by \textbf{the software token residing on the mobile phone} ("something you have")
+
+\item
+even though the individual uses the same password ("something you know") to authenticate both to the laptop and the corporate network
+
+\item
+\textbf{if the mobile device is also used to initiate the connection to the corporate network} (instead of the PC)
+
+\begin{itemize}
+\item
+additional security controls would be needed to demonstrate independence of the authentication mechanisms
+\end{itemize}
+\end{itemize}
+\end{frame}
+
+
+
+\begin{frame}{Multi-factor authentication scenarios}
+
+\begin{figure}[t]
+\centering
+\includegraphics[scale=0.35]{Images/scenario4}
+\end{figure}
+
+\end{frame}
+
+
+
+\begin{frame}{Multi-factor authentication scenarios}
+\begin{itemize}
+\item
+the individual uses \textbf{multi-factor authentication} (e.g. password and biometric) to log in to a smartphone or a laptop
+
+\item
+to establish a connection to the corporate network he/she then provides a \textbf{single authentication factor} (e.g. a different password, digital certificate, or signed challenge-response)
+\end{itemize}
+\end{frame}
+
+
+
+\begin{frame}{Multi-factor authentication scenarios}
+\begin{itemize}
+\item
+additional controls may be needed \textbf{to prevent an unauthorized party from gaining constructive use} of the "trust" established between the device and the corporate network
+
+\item
+e.g. a malicious user executes a process on the device:
+\begin{itemize}
+\item
+that allows them to interact with the corporate network
+\item
+but \textbf{without having knowledge of the password or biometric} used by the legitimate user
+\end{itemize}
+\end{itemize}
+\end{frame}
+
+
+
+\begin{frame}{Security protocols}
+\begin{itemize}
+\item
+a \textbf{protocol} is a series of steps carried out by two or more entities
+
+\begin{itemize}
+\item
+HTTP, TCP, SMTP, etc.
+\end{itemize}
+
+\item
+a \textbf{security protocol} is a protocol that runs in an untrusted  environment and tries to achieve one or more security objectives
+
+\begin{itemize}
+\item
+academic: Needham-Schroeder-Lowe, PAKE, EKE, etc.
+
+\item
+industrial: S/MIME, PGP, SSH, Kerberos, SSL/TLS, IPSec, etc.
+\newline
+\end{itemize}
+
+
+\item
+a \textbf{security protocol (cryptographic protocol or encryption protocol)} is an abstract or concrete protocol that performs a security-related function and applies cryptographic methods, often as sequences of cryptographic primitives (\textit{Wikipedia})
+\end{itemize}
+\end{frame}
+
+
+
+\begin{frame}{Security protocols}
+
+\begin{figure}[t]
+\centering
+\includegraphics[scale=0.6]{Images/secpro}
+\end{figure}
+
+\end{frame}
+
+
+
+\begin{frame}{Security protocols}
+
+\textbf{Passwordless authentication}
+
+\begin{itemize}
+\item
+OAuth (Open Authorization)
+
+\item
+OpenId
+
+\item
+SAML (Security Assertion Markup Language)
+
+\item
+FIDO (The Fast Identity Online)
+
+\end{itemize}
+
+\textbf{Certificate authentication}
+
+\begin{itemize}
+\item
+SSL/TLS (Secure Sockets Layer/Transport Layer Security)
+\end{itemize}
+
+\end{frame}
+
+
+
+\begin{frame}{OAuth}
+\begin{itemize}
+\item
+allows an application to authenticate against a server as a user
+\begin{itemize}
+\item
+without requiring passwords
+\item
+or any third party server that acts as an identity provider
+\end{itemize}
+
+\item
+it uses a token generated by the server
+
+\item
+provides how the authorization flows most occur, so that a client, such as a mobile application, can tell the server what user is using the service
+
+\item
+use and implement OAuth 1.0a or OAuth 2.0
+
+\item
+OAuth1.0 has been found to be vulnerable to session fixation
+\end{itemize}
+\end{frame}
+
+
+
+\begin{frame}{OAuth}
+\begin{itemize}
+\item
+OAuth 2.0
+
+\begin{itemize}
+\item
+relies on HTTPS for security
+\item
+is currently used and implemented by API's from companies such as Facebook, Google, Twitter and Microsoft
+\end{itemize}
+
+\item
+OAuth1.0a
+
+\begin{itemize}
+\item
+is more difficult to use because it requires the use of cryptographic libraries for digital signatures
+
+\item
+since OAuth1.0a does not rely on HTTPS for security it can be more suited for higher risk transactions
+\end{itemize}
+
+\end{itemize}
+\end{frame}
+
+
+
+\begin{frame}{OAuth 2.0}
+\begin{itemize}
+\item
+3 main players in an OAuth transaction: 
+
+\begin{itemize}
+\item
+the user
+\item
+the consumer
+\item
+the service provider
+\end{itemize}
+
+\item
+the OAuth Love Triangle
+\newline
+\end{itemize}
+\end{frame}
+
+
+
+\begin{frame}{OAuth 2.0}
+\begin{itemize}
+\item
+exemplification scenario:
+
+\begin{itemize}
+\item
+the user - Joe
+\item
+the consumer - Bitly
+\item
+the service provider - Twitter
+\end{itemize}
+
+\item
+Joe would like Bitly to be able to post shortened links to his Twitter stream
+\end{itemize}
+\end{frame}
+
+
+
+\begin{frame}{OAuth 2.0}
+
+\textbf{Step 1 – The User Shows Intent}
+
+\begin{itemize}
+\item
+Joe (User): “Hey, Bitly, I would like you to be able to post links directly to my Twitter stream.”
+\newline
+
+\item
+Bitly (Consumer): “Great! Let me go ask for permission.”
+
+\end{itemize}
+\end{frame}
+
+
+
+\begin{frame}{OAuth 2.0}
+
+\textbf{Step 2 – The Consumer Gets Permission}
+
+\begin{itemize}
+\item
+Bitly: “I have a user that would like me to post to his stream. Can I have a \textbf{clientID} and a \textbf{clientSecret}?”
+\newline
+
+\item
+Twitter (Service Provider): “Sure.  Here’s the \textbf{clientID} and the \textbf{clientSecret}.”
+\newline
+
+\item
+the clientID and the clientSecret are used to prevent request forgery
+
+\item
+the consumer uses them so that the service provider can verify it is actually coming from the consumer application
+
+\end{itemize}
+\end{frame}
+
+
+
+\begin{frame}{OAuth 2.0}
+
+\textbf{Step 3 – The User Is Redirected to the Service Provider}
+
+\begin{itemize}
+\item
+Bitly: “OK, Joe.  I’m sending you over to Twitter so you can approve.  Take this \textbf{token} with you.”
+\newline
+
+\item
+Joe: “OK!”
+\newline
+
+\item
+Bitly directs Joe to Twitter for authorization
+\newline
+
+\item
+Bitly could pop up a window that looked like Twitter but was really phishing for Joe's username and password
+
+\item
+always be sure to verify that the URL you’re directed to is actually the service provider (Twitter, in this case)
+\end{itemize}
+\end{frame}
+
+
+
+\begin{frame}{OAuth 2.0}
+
+\textbf{Step 4 – The User Gives Permission}
+
+\begin{itemize}
+\item
+Joe: “Twitter, I’d like to authorize this \textbf{request token} that Bitly gave me.”
+\newline
+
+\item
+Twitter: “OK, just to be sure, you want to authorize Bitly to do X, Y, and Z with your Twitter account?”
+\newline
+
+\item
+Joe: “Yes!”
+\newline
+
+\item
+Twitter: “OK, you can go back to Bitly and give him this \textbf{authorization code} corresponding to the \textbf{request token} you gave me.”
+\newline
+
+\item
+Twitter marks the request token as “good-to-go”
+
+\item
+when the consumer requests access, it will be accepted
+
+\item
+so long as it’s signed using their shared secret
+\end{itemize}
+\end{frame}
+
+
+
+\begin{frame}{OAuth 2.0}
+
+\textbf{Step 5 – The Consumer Obtains an Access Token}
+
+\begin{itemize}
+\item
+Bitly: “Twitter, can I exchange this \textbf{authorization code} for an \textbf{access token}?”
+\newline
+
+\item
+Twitter: “Sure.  Here’s your \textbf{access token}.”
+
+\end{itemize}
+\end{frame}
+
+
+
+\begin{frame}{OAuth 2.0}
+
+\textbf{Step 6 – The Consumer Accesses the Protected Resource}
+
+\begin{itemize}
+\item
+Bitly: “I’d like to post this link to Joe’s stream.  Here’s my \textbf{access token}!”
+\newline
+
+\item
+Twitter: “Done!”
+
+\end{itemize}
+\end{frame}
+
+
+
+\begin{frame}[fragile]{OAuth2}
+
+\textbf{https://cloudsignatureconsortium.org/}
+
+\begin{itemize}
+\item
+\begin{verbatim}
+GET https://www.domain.org/oauth2/authorize?
+response_type=code&
+client_id=[CLIENT_ID]&
+redirect_uri=[REDIRECT_URI]&
+scope=service&
+state=12345678&
+lang=en-US&
+appName=Cloud\%20Signature\%20Service
+\end{verbatim}
+
+\item
+\begin{verbatim}
+HTTP/1.1 302 Found
+Location: [REDIRECT_URI]?code=FhkXf9P269L8g&
+state=12345678
+\end{verbatim}
+\end{itemize}
+\end{frame}
+
+
+
+\begin{frame}[fragile]{OAuth2}
+\begin{itemize}
+\item
+\begin{verbatim}
+POST https://service.domain.org/csc/v0/oauth2/token
+Content-Type: application/json
+{
+"grant_type": "authorization_code",
+"code": "FhkXf9P269L8g",
+"client_id": "test",
+"client_secret": "password"
+}
+\end{verbatim}
+
+\item
+\begin{verbatim}
+HTTP/1.1 200 OK
+{
+"access_token": "4/CKN69L8gdSYp5_pwH3XlFQZ3ndFhkXf9P2_TiHRG-bA",
+"refresh_token": "_TiHRG-bA H3XlFQZ3ndFhkXf9P24/CKN69L8gdSYp5_pw",
+"token_type": "Bearer",
+"expires_in": 3600
+}
+\end{verbatim}
+\end{itemize}
+\end{frame}
+
+
+
+\begin{frame}[fragile]{OAuth2}
+\begin{itemize}
+\item
+\begin{verbatim}
+POST https://service.domain.org/csc/v0/credentials/list
+Authorization: Bearer 4/CKN69L8gdSYp5_pwH3XlFQZ3ndFhkXf9P2_TiHRG-bA
+\end{verbatim}
+
+\item
+\begin{verbatim}
+HTTP/1.1 200 OK
+{
+"credentialIDs":
+[
+"GX0112348",
+"HX0224685"
+]
+}
+\end{verbatim}
+
+\item
+and so on
+\end{itemize}
+\end{frame}
+
+
+
+\begin{frame}{OpenId}
+\begin{itemize}
+\item
+an HTTP-based protocol, using JSON
+
+\item
+uses \textbf{identity providers to validate that a user is who he says he is}
+
+\begin{itemize}
+\item
+allows the user to \textbf{re-use a single identity} given to a trusted OpenId identity provider
+\item
+he/she can \textbf{be the same user in multiple websites}
+\item
+\textbf{without the need to provide any website the password}, except for the OpenId identity provider
+\end{itemize}
+
+\item
+\textbf{has been well adopted} - some of the well known identity providers for OpenId are Stack Exchange, Google, Facebook and Yahoo
+\end{itemize}
+\end{frame}
+
+
+
+\begin{frame}{SAML}
+\begin{itemize}
+\item
+\textbf{uses identity providers} (like OpenId), but it is XML-based and provides more flexibility
+
+\item
+isn't only initiated by a service provider, but \textbf{it can also be initiated from the identity provider}
+
+\item
+this allows the user to navigate through different portals while still being authenticated without having to do anything, making the process transparent
+
+\item
+e.g. SAP ERP, SharePoint, etc.
+\end{itemize}
+\end{frame}
+
+
+
+\begin{frame}{OpenId vs. SAML}
+\begin{itemize}
+\item
+OpenId is considered a secure and often better choice than SAML \textbf{for non-enterprise environments}
+
+\begin{itemize}
+\item
+as long as the identity provider is of trust
+\newline
+\end{itemize}
+
+\item
+SAML is often the choice for \textbf{enterprise applications}
+
+\begin{itemize}
+\item
+because there are few OpenId identity providers which are considered of enterprise class
+
+\item
+meaning that the way they validate the user identity doesn't have high standards required for enterprise identity
+\end{itemize}
+
+\end{itemize}
+\end{frame}
+
+
+
+\begin{frame}{FIDO}
+\begin{itemize}
+\item
+\textbf{Universal Authentication Framework (UAF) protocol}
+
+\begin{itemize}
+\item
+passwordless authentication
+\item
+takes advantage of existing security technologies present on devices for authentication
+\begin{itemize}
+\item
+fingerprint sensors, 
+\item
+cameras (face biometrics), 
+\item
+microphones (voice biometrics), 
+\item
+Trusted Execution Environments(TEEs), 
+\item
+Secure Elements(SEs), etc.
+\end{itemize}
+\item
+plugs-in these device capabilities into a common authentication framework
+\item
+works with \textbf{native applications and web applications}
+\item
+based on a \textbf{public key cryptography challenge-response} model
+\end{itemize}
+\end{itemize}
+\end{frame}
+
+
+
+\begin{frame}{FIDO}
+\begin{itemize}
+\item
+\textbf{Universal Second Factor (U2F) protocol}
+
+\begin{itemize}
+\item
+based on a \textbf{public key cryptography challenge-response} model
+
+\item
+allows the addition of a second factor to existing password-based authentication
+
+\item
+augments password-based authentication using a hardware token (typically USB) that stores cryptographic authentication keys and uses them for signing
+
+\item
+the user can use the same token as a second factor for multiple applications
+
+\item
+works with \textbf{web applications}
+
+\item
+provides \textbf{protection against phishing} by using the URL of the website to lookup the stored authentication key
+\end{itemize}
+\end{itemize}
+\end{frame}
+
+
+
+\begin{frame}{SSL/TLS}
+\begin{figure}[t]
+\centering
+\includegraphics[scale=0.5]{Images/sslflow}
+\end{figure}
+\end{frame}
+
+
+
+\begin{frame}{SSL/TLS}
+\begin{figure}[t]
+\centering
+\includegraphics[scale=0.7]{Images/sslflow2}
+\end{figure}
+\end{frame}
+
+
+
+\begin{frame}{SSL/TLS}
+
+\textbf{client hello}
+
+\begin{itemize}
+\item
+the \textbf{SSL or TLS version}
+
+\item
+the \textbf{CipherSuites} supported by the client (in the client's order of preference)
+
+\item
+a \textbf{random byte string} that is used in subsequent computations
+
+\item
+may include the data compression methods supported by the client
+\end{itemize}
+\end{frame}
+
+
+
+\begin{frame}{SSL/TLS}
+
+\textbf{server hello}
+
+\begin{itemize}
+\item
+the \textbf{CipherSuite} chosen by the server from the list provided by the client
+
+\item
+the \textbf{session ID}
+
+\item
+another \textbf{random byte string}
+
+\item
+the \textbf{server's digital certificate}
+
+\item
+\textbf{"client certificate request"}
+
+\begin{itemize}
+\item
+if the server requires a digital certificate for client authentication
+
+\item
+includes a list of the types of certificates supported
+
+\item
+and the Distinguished Names of acceptable Certification Authorities
+\end{itemize}
+
+\end{itemize}
+\end{frame}
+
+
+
+\begin{frame}{SSL/TLS}
+
+\textbf{client key exchange}
+
+\begin{itemize}
+\item
+the client \textbf{verifies the server's digital certificate}
+
+\item
+the client sends the random byte string that enables both the client and the server to compute the secret key to be used for encrypting subsequent message data
+
+\item
+the random byte string itself is \textbf{encrypted with the server's public key}
+
+\end{itemize}
+\end{frame}
+
+
+
+\begin{frame}{SSL/TLS}
+
+\textbf{if the server has sent a "client certificate request"}
+
+\begin{itemize}
+\item
+the client sends a \textbf{random byte string encrypted with the client's private key}
+
+\item
+together with the \textbf{client's digital certificate}
+
+\item
+or a "no digital certificate alert"
+
+\item
+this alert is only a warning, but with some implementations the handshake fails if client authentication is mandatory
+\end{itemize}
+\end{frame}
+
+
+
+\begin{frame}{SSL/TLS}
+
+\textbf{if a certificate has been received from the client}
+
+\begin{itemize}
+\item
+the server \textbf{verifies the client's certificate}
+\end{itemize}
+\end{frame}
+
+
+
+\begin{frame}{SSL/TLS}
+
+\textbf{client finished}
+
+\begin{itemize}
+\item
+the client sends the server a "finished" message
+
+\item
+it is \textbf{encrypted with the secret key}
+
+\item
+indicates that the client part of the handshake is complete
+\end{itemize}
+\end{frame}
+
+
+
+\begin{frame}{SSL/TLS}
+
+\textbf{server finished}
+
+\begin{itemize}
+\item
+the server sends the client a "finished" message
+
+\item
+it is \textbf{encrypted with the secret key}
+
+\item
+indicates that the server part of the handshake is complete
+\end{itemize}
+\end{frame}
+
+
+\begin{frame}{SSL/TLS}
+\begin{itemize}
+\item
+for the duration of the SSL or TLS session, the server and client can now exchange messages that are \textbf{symmetrically encrypted with the shared secret key}
+\end{itemize}
+\end{frame}
+
+
+
+\begin{frame}{SSL/TLS}
+\begin{itemize}
+\item
+\textbf{Transport Layer Security (TLS) Parameters}
+
+\url{http://www.iana.org/assignments/tls-parameters/tls-parameters.xhtml}
+\newline
+
+\item
+\textbf{Check cipher suits used/supported by your browser}
+
+\url{https://cc.dcsec.uni-hannover.de/}
+\newline
+
+\item
+\textbf{Decrypting TLS Browser Traffic With Wireshark} – sometimes needed for debug purposes
+
+\url{https://jimshaver.net/2015/02/11/decrypting-tls-browser-traffic-with-wireshark-the-easy-way/}
+
+\end{itemize}
+\end{frame}
+
+
+
+\begin{frame}{SSL/TLS}
+
+\begin{figure}[t]
+\centering
+\includegraphics[scale=0.28]{Images/tls1a}
+\end{figure}
+
+\end{frame}
+
+
+
+\begin{frame}{SSL/TLS}
+
+\begin{figure}[t]
+\centering
+\includegraphics[scale=0.5]{Images/tls1b}
+\end{figure}
+
+\end{frame}
+
+
+
+\begin{frame}{SSL/TLS}
+
+\begin{figure}[t]
+\centering
+\includegraphics[scale=0.7]{Images/tls2}
+\end{figure}
+
+\end{frame}
+
+
+
+\begin{frame}{SSL/TLS}
+
+\begin{figure}[t]
+\centering
+\includegraphics[scale=0.5]{Images/tls3}
+\end{figure}
+
+\end{frame}
+
+
+
+\begin{frame}{SSL/TLS}
+
+\begin{figure}[t]
+\centering
+\includegraphics[scale=0.6]{Images/tls4}
+\end{figure}
+
+\end{frame}
+
+
+
+\begin{frame}{SSL/TLS}
+
+\begin{figure}[t]
+\centering
+\includegraphics[scale=0.6]{Images/tls5a}
+\end{figure}
+
+\end{frame}
+
+
+
+\begin{frame}{SSL/TLS}
+
+\begin{figure}[t]
+\centering
+\includegraphics[scale=0.5]{Images/tls5b}
+\end{figure}
+
+\end{frame}
+
+
+
+\begin{frame}{SSL/TLS}
+
+\begin{figure}[t]
+\centering
+\includegraphics[scale=0.6]{Images/tls5c}
+\end{figure}
+
+\end{frame}
+
+
+
+\begin{frame}{SSL/TLS}
+
+\begin{figure}[t]
+\centering
+\includegraphics[scale=0.28]{Images/tls5d}
+\end{figure}
+
+\end{frame}
+
+
+
+\begin{frame}{SSL/TLS}
+
+\begin{figure}[t]
+\centering
+\includegraphics[scale=0.5]{Images/tls6}
+\end{figure}
+
+\end{frame}
+
+
+
+\begin{frame}{SSL/TLS}
+
+\begin{figure}[t]
+\centering
+\includegraphics[scale=0.7]{Images/tls7}
+\end{figure}
+
+\end{frame}
+
+
+
+\begin{frame}{SSL/TLS}
+
+\begin{figure}[t]
+\centering
+\includegraphics[scale=0.28]{Images/tls8}
+\end{figure}
+
+\end{frame}
+
+
+
+\begin{frame}{References}
+\begin{itemize}
+\item
+Keith Martin McCrea, \textbf{Introduction to Cryptography and Security Mechanisms}
+
+\url{www.isg.rhul.ac.uk/static/msc/teaching/ic2/slides05/Unit2.8.ppt}
+
+\item
+PCI Security Standards Council, \textbf{Multi-Factor Authentication}, February 2017
+
+\url{https://www.pcisecuritystandards.org/pdfs/Multi-Factor-Authentication-Guidance-v1.pdf}
+
+\item
+DRAFT \textbf{NIST Special Publication 800-63B Digital Authentication Guideline} (accessed: November 07, 2016)
+
+\url{https://pages.nist.gov/800-63-3/sp800-63b.html}
+
+\end{itemize}
+\end{frame}
+
+
+
+\begin{frame}{References}
+\begin{itemize}
+\item
+Rob Sobers, \textbf{What is OAuth? Definition and How it Works}
+
+\url{https://www.varonis.com/blog/what-is-oauth/}
+
+\item
+Aaron Parecki, \textbf{OAuth 2 Simplified}
+
+\url{https://aaronparecki.com/oauth-2-simplified/}
+
+\item
+Ton van Deursen, \textbf{Introduction to Security Protocols}
+
+\url{http://satoss.uni.lu/members/patrick/1stsxxm.pdf}
+
+\item
+IBM Knowledge Center, \textbf{An overview of the SSL or TLS handshake}
+
+\url{https://www.ibm.com/support/knowledgecenter/SSFKSJ_7.1.0/com.ibm.mq.doc/sy10660_.htm}
+
+\end{itemize}
+\end{frame}
+
+
+
+\begin{frame}{References}
+\begin{itemize}
+\item
+Matthew Green, \textbf{On the (provable) security of TLS}
+
+\url{https://blog.cryptographyengineering.com/2012/09/06/on-provable-security-of-tls-part-1/}
+
+\url{https://blog.cryptographyengineering.com/2012/09/28/on-provable-security-of-tls-part-2/}
+
+\item
+Alvaro Castro-Castilla, \textbf{Traffic Analysis of an SSL/TLS Session} 
+
+\url{http://blog.fourthbit.com/2014/12/23/traffic-analysis-of-an-ssl-slash-tls-session}
+
+\item
+Kaushal Kumar Panday, \textbf{SSL Handshake and HTTPS Bindings on IIS}
+
+\url{https://blogs.msdn.microsoft.com/kaushal/2013/08/02/ssl-handshake-and-https-bindings-on-iis/}
+\end{itemize}
+\end{frame}
+
+
+
+\end{document}
